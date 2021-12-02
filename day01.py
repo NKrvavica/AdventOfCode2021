@@ -8,18 +8,18 @@ Created on Wed Dec  1 07:53:59 2021
 import numpy as np
 import pandas as pd
 
-fname = './Day01/day01input.txt'
+fname = './Day01/day01.txt'
 
 depths = np.loadtxt(fname)
 
 # part 1
 diff = np.diff(depths)
 increases = diff[diff > 0]
-print(increases.size)
+print(f'Solution to part one: {increases.size}')
 
 # part 2
 depths_s = pd.Series(depths)
-rolling_sum = depths_s.rolling(3).sum()
+rolling_sum = depths_s.rolling(3, center=True).sum()
 rolling_diff = rolling_sum.diff()
 rolling_inc = rolling_diff.loc[rolling_diff > 0]
-print(rolling_inc.size)
+print(f'Solution to part two: {rolling_inc.size}')
