@@ -8,7 +8,7 @@ Created on Wed Dec  1 07:53:59 2021
 import numpy as np
 import pandas as pd
 
-fname = './Day01/day01.txt'
+fname = './inputs/day01.txt'
 
 depths = np.loadtxt(fname)
 
