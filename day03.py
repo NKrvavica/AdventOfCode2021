@@ -26,25 +26,27 @@ def part1(data_array):
     return gamma_rate * epsilon_rate
 
 
+def oxy_generator(numbers, idx):
+    return np.ceil(numbers[idx].median(axis=0)).astype(int)
+
+
+def co2_scrubber(numbers, idx):
+    return np.floor(1 - numbers[idx].median(axis=0)).astype(int)
+
+
+def diagnostic(data_array, method):
+    idx = 0
+    keep = data_array
+    while keep.index.size > 1:
+        bit =  method(keep, idx)
+        keep = keep.loc[keep[idx] == bit]
+        idx += 1
+    return bin_array_to_dec(keep.values[0])
+
+
 def part2(data_array):
-    # OXygen generator
-    idx = 0
-    keep = data_array
-    while keep.index.size > 1:
-        bit =  keep[idx].median(axis=0)
-        keep = keep.loc[keep[idx] == np.ceil(bit).astype(int)]
-        idx += 1
-    oxy_gen_rating = bin_array_to_dec(keep.values[0])
-
-    # CO2 scrubber
-    idx = 0
-    keep = data_array
-    while keep.index.size > 1:
-        bit =  1 - keep[idx].median(axis=0)
-        keep = keep.loc[keep[idx] == np.floor(bit).astype(int)]
-        idx += 1
-    co2_scrubb_rating = bin_array_to_dec(keep.values[0])
-
+    oxy_gen_rating = diagnostic(data_array, oxy_generator)
+    co2_scrubb_rating = diagnostic(data_array, co2_scrubber)
     return oxy_gen_rating * co2_scrubb_rating
 
 
