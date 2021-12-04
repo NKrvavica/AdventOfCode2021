@@ -45,13 +45,19 @@ def diagnostic(data_array, method):
 
 
 def part2(data_array):
-    oxy_gen_rating = diagnostic(data_array, oxy_generator)
-    co2_scrubb_rating = diagnostic(data_array, co2_scrubber)
+    oxy_gen_rating = diagnostic(data_array, method=oxy_generator)
+    co2_scrubb_rating = diagnostic(data_array, method=co2_scrubber)
     return oxy_gen_rating * co2_scrubb_rating
 
 
+# load data
 data = read_input(3)
+
+# DataFrame where each bit is in an individual column
 data_array = pd.DataFrame(mapl(digits, data))
+
+# alternative parsing
+# data_array = pd.DataFrame([mapl(int, line) for line in data])
 
 print(part1(data_array))
 print(part2(data_array))
