@@ -22,8 +22,7 @@ def load_input(fname):
 
 
 def play_bingo(numbers, boards, first_board_wins=True):
-    # set of all boards that are in play
-    boards_left = set(np.arange(boards.shape[0]))
+    boards_won = set()
     # draw numbers
     for nr in numbers:
         # check the board for the drawn number (mark that number)
@@ -35,14 +34,16 @@ def play_bingo(numbers, boards, first_board_wins=True):
             if check.any():
                 # index of the completed board
                 board_idx,_ = np.where(check)
-                print(f'bingo! board(s) {board_idx} completed...')
+                boards_won.update(board_idx)
+                print(f'number {nr}, bingo! board(s) {board_idx} completed...')
                 # compute the score
                 score = np.nansum(boards[board_idx, :, :]) * nr
                 if first_board_wins:
                     return score
                 # remove the board from play
-                boards_left.remove(board_idx[0])
                 boards[board_idx, :, :] = -999
+        if len(boards_won) == boards.shape[0]:
+            return score
     return score
 
 
