@@ -14,18 +14,11 @@ def connect(data, part=1):
     for points in data:
         x1, y1, x2, y2 = integers(points)
         if (x1 == x2) or (y1 == y2) or (part==2):
-            if x1 < x2:
-                xs = np.arange(x1, x2 + 1)
-            else:
-                xs = np.arange(x1, x2 - 1, -1)
-            if y1 < y2:
-                ys = np.arange(y1, y2 + 1)
-            else:
-                ys = np.arange(y1, y2 - 1, -1)
+            dx, dy = abs(x1 - x2), abs(y1 - y2)
+            xs = np.linspace(x1, x2, dx + 1).astype(int)
+            ys = np.linspace(y1, y2, dy + 1).astype(int)
             field[ys, xs] += 1
-    return len(field[field >= 2])
-
-
+    return (field >= 2).sum()
 
 data = read_input(5)
 
