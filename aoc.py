@@ -16,8 +16,8 @@ def mapt(f, iterable):
     return tuple(map(f, iterable))
 
 def read_input(filename, datatype=str, sep='\n'):
-    filename = f"{filename:02d}" if isinstance(filename, int) else filename
-    with open(f"inputs/day{filename}.txt") as f:
+    filename = f"day{filename:02d}" if isinstance(filename, int) else filename
+    with open(f"inputs/{filename}.txt") as f:
         contents = f.read().strip().split(sep)
         return mapl(datatype, contents)
 
