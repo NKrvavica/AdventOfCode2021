@@ -17,11 +17,9 @@ def spawn(days, fishes):
     for fish_age in fishes:
         fish_ages[fish_age] += 1
     for day in range(days):
-        new_borns = fish_ages[0]
         fish_ages = np.roll(fish_ages, -1)
-        fish_ages[6] += new_borns  # parents
-        fish_ages[8] = new_borns  # newborns
-    return (fish_ages.sum())
+        fish_ages[6] += fish_ages[8]  # parents
+    return fish_ages.sum().astype('longlong')
 
 
 print(spawn(80, fishes))
