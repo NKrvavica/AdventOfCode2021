@@ -30,9 +30,8 @@ def part1(data_array):
 
 
 
-def check(coord, to_go, been_there):
-    if data_array[coord] < 9 and (coord not in been_there):
-        to_go.add(coord)
+def should_i_go_there(coord, been_there):
+    return (data_array[coord] < 9 and (coord not in been_there))
 
 
 def part2(data_array, low_points):
@@ -44,7 +43,8 @@ def part2(data_array, low_points):
             goy, gox = to_go.pop()
             been_there.add((goy, gox))
             for neighbour in get_neighbours(goy, gox):
-                check(neighbour, to_go, been_there)
+                if should_i_go_there(neighbour, been_there):
+                    to_go.add(neighbour)
         sizes.append(len(been_there))
     return np.prod(sorted(sizes)[-3:])
 
