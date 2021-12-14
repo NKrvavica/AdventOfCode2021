@@ -7,28 +7,17 @@ Created on Mon Dec 13 08:17:29 2021
 
 from aoc import *
 from itertools import product
-from collections import defaultdict
+from collections import defaultdict, Counter
 
 
 def parse_input(data):
     template, str_rules = map(str.splitlines, data)
-    template = template[0]
-    rules = defaultdict(str)
-    for line in str_rules:
-        k, v = line.split(' -> ')
-        rules[k] = v
-    return template, rules
-
-
-def pair_dict_from_str(string):
-    a = defaultdict(int)
-    for i in range(len(string)-1):
-        a[string[i:i+2]] += 1
-    return a
+    rules = dict(r.split(' -> ') for r in str_rules)
+    return template[0], rules
 
 
 def insertion(template, rules, N):
-    a = pair_dict_from_str(template)
+    a = Counter(template[i:i+2] for i in range(len(template)-1))
     for step in range(N):
         b = a.copy()
         for k in a:
@@ -36,10 +25,8 @@ def insertion(template, rules, N):
                 repeates = a[k]
                 insertion = rules[k]
                 b[k] -= a[k]
-                first = cat((k[0], insertion))
-                second = cat((insertion, k[1]))
-                b[first] += repeates
-                b[second] += repeates
+                b[cat((k[0], insertion))] += repeates
+                b[cat((insertion, k[1]))] += repeates
         a = b
     return a
 
@@ -55,6 +42,11 @@ def difference(a, template):
 # data = read_input('example14', sep='\n\n')
 data = read_input(14, sep='\n\n')
 template, rules = parse_input(data)
+
+a = insertion(template, rules, 10)
+p1 = difference(a, template)<
+print(p1)
+
 a = insertion(template, rules, 40)
-res = difference(a, template)
-print(res)
+p2 = difference(a, template)
+print(p2)
